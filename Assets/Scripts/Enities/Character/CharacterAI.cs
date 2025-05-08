@@ -39,7 +39,7 @@ namespace Entities
         private void Idle()
         {
             anim.SetAnimation(CharacterStates.idle);
-            StartCoroutine(DebugRun());
+            //StartCoroutine(DebugRun());
         }
 
         private void Run()

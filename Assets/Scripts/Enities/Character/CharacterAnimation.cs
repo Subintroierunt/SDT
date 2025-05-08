@@ -14,5 +14,10 @@ namespace Entities
             animator.ResetTrigger(state.ToString());
             animator.SetTrigger(state.ToString());
         }
+
+        public void SetRagdoll(bool mode)
+        {
+            animator.enabled = !mode;
+        }
     }
 }

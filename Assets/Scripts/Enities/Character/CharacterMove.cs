@@ -21,13 +21,24 @@ namespace Entities
         private void Init(int start)
         {
             curWayPoint = start;
-            agent.transform.position = wayPoints[start].position;
+            if (wayPoints.Count > 0)
+            {
+                agent.transform.position = wayPoints[start].position;
+            }
         }
 
         public void NextPosition()
         {
-            curWayPoint = (curWayPoint + 1) % wayPoints.Count;
-            agent.SetDestination(wayPoints[curWayPoint].position);
+            if (wayPoints.Count > 0)
+            {
+                curWayPoint = (curWayPoint + 1) % wayPoints.Count;
+                agent.SetDestination(wayPoints[curWayPoint].position);
+            }
+            else
+            {
+                characterAI.ChangeState(CharacterStates.idle);
+            }
+            
         }
 
         private void Update()
