@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 namespace Entities
@@ -11,6 +10,14 @@ namespace Entities
 
         [SerializeField] private CharacterAnimation anim;
 
+        public event Action<CharacterHealth> Killed;
+        public event Action<float> DamageTaked;
+
+        private bool isKilled;
+
+        public bool IsKilled =>
+            isKilled;
+
         private void Start()
         {
             curHealth = maxHealth;
@@ -18,22 +25,29 @@ namespace Entities
 
         public void TakeDamage(int damage)
         {
-            if ((curHealth -= damage) <= 0)
+            if (!isKilled)
             {
-                curHealth = 0;
-                Kill();
+                if ((curHealth -= damage) <= 0)
+                {
+                    curHealth = 0;
+                    
+
+                    Kill();
+                }
+                DamageTaked?.Invoke((float)curHealth / maxHealth);
             }
-            Debug.Log("Ouch " + curHealth);
         }
 
         public void Kill()
         {
-            Debug.Log("dead");
+            isKilled = true;
             anim.SetRagdoll(true);
+            Killed?.Invoke(this);
         }
 
         public void Resurect()
         {
+            isKilled = false;
             curHealth = maxHealth;
             anim.SetRagdoll(false);
         }

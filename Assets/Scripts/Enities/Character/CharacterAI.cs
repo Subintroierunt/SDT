@@ -1,7 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 namespace Entities
 {
@@ -39,7 +37,6 @@ namespace Entities
         private void Idle()
         {
             anim.SetAnimation(CharacterStates.idle);
-            //StartCoroutine(DebugRun());
         }
 
         private void Run()

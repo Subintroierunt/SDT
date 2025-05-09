@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Entities
@@ -11,6 +9,5 @@ namespace Entities
 
         public ProjectileMove Move => projectileMove;
         public ProjectileHit Hit => projectileHit;
-    
     }
 }

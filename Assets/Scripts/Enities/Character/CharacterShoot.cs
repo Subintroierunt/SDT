@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -35,6 +33,7 @@ namespace Entities
                 ProjectileLinks projectile = pool.Instantiate(gunPoint.transform.position);
                 projectile.Move.Launch((hit.point - gunPoint.position), bulletSpeed);
                 projectile.Hit.SetDamage(damage);
+                projectile.Hit.SetTarget(enemy);
             }
             else
             {

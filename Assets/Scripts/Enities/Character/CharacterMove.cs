@@ -1,4 +1,4 @@
-using System.Collections;
+using GameSystems;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -8,7 +8,7 @@ namespace Entities
     public class CharacterMove : MonoBehaviour
     {
         [SerializeField] private NavMeshAgent agent;
-        [SerializeField] private List<Transform> wayPoints = new List<Transform>();
+        [SerializeField] private WaypointPath path;
         [SerializeField] private CharacterAI characterAI;
 
         private int curWayPoint;
@@ -18,21 +18,26 @@ namespace Entities
             Init(0);
         }
 
-        private void Init(int start)
+        public void Init(int start)
         {
-            curWayPoint = start;
-            if (wayPoints.Count > 0)
+            if (path != null)
             {
-                agent.transform.position = wayPoints[start].position;
+                curWayPoint = start;
+                if (path.Waypoints.Count > 0)
+                {
+                    agent.transform.position = path.Waypoints[start].position;
+                    agent.transform.rotation = Quaternion.identity;
+                    agent.SetDestination(path.Waypoints[start].position);
+                }
             }
         }
 
         public void NextPosition()
         {
-            if (wayPoints.Count > 0)
+            if (path.Waypoints.Count > 0)
             {
-                curWayPoint = (curWayPoint + 1) % wayPoints.Count;
-                agent.SetDestination(wayPoints[curWayPoint].position);
+                curWayPoint = (curWayPoint + 1) % path.Waypoints.Count;
+                agent.SetDestination(path.Waypoints[curWayPoint].position);
             }
             else
             {
@@ -45,7 +50,6 @@ namespace Entities
         {
             if (characterAI.State == CharacterStates.run && Vector3.Distance(agent.destination, transform.position) < 0.01f)
             {
-                Debug.Log("ping");
                 characterAI.ChangeState(CharacterStates.idle);
             }
         }

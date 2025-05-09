@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Animations;
 using UnityEngine;
 
 namespace Entities
@@ -8,6 +6,12 @@ namespace Entities
     public class CharacterAnimation : MonoBehaviour
     {
         [SerializeField] private Animator animator;
+        [SerializeField] private List<Rigidbody> ragdolls = new List<Rigidbody>();
+
+        private void Start()
+        {
+            ragdolls.ForEach(r => r.isKinematic = true);
+        }
 
         public void SetAnimation(CharacterStates state)
         {
@@ -18,6 +22,7 @@ namespace Entities
         public void SetRagdoll(bool mode)
         {
             animator.enabled = !mode;
+            ragdolls.ForEach(r => r.isKinematic = !mode);
         }
     }
 }

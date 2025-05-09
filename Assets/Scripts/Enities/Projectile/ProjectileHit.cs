@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Entities
@@ -10,9 +8,13 @@ namespace Entities
         public event Action<ProjectileHit> Hitted;
 
         private int damage;
+        private CharacterHealth target;
 
         public void SetDamage(int damage) =>
             this.damage = damage;
+
+        public void SetTarget(CharacterHealth target) => 
+            this.target = target;
 
         public void LifeTimeEnd() =>
             Hitted?.Invoke(this);
@@ -20,14 +22,7 @@ namespace Entities
         private void OnTriggerEnter(Collider other)
         {
             Hitted?.Invoke(this);
-            CharacterHealth enemy;
-            if (enemy = other.transform.root.GetComponent<CharacterHealth>())
-            {
-                enemy.TakeDamage(damage);
-            }
-
-            Debug.Log("Hit " + other.transform.root.name);
-
+            target.TakeDamage(damage);
         }
     }
 }
